@@ -90,6 +90,26 @@ def search_notes(notes):
     else:
         print('No notes found.')
 
+def sort_notes(notes):
+    # Сортування нотатків
+    keyword = input('Enter a keyword to sort by: ')
+    if sorted_notes := sorted(
+        notes,
+        key=lambda note: keyword.lower() in note['title'].lower()
+        or keyword.lower() in note['content'].lower()
+        or keyword.lower() in [tag.lower() for tag in note['tags']],
+    ):
+        print('Sorted notes:')
+        for note in sorted_notes:
+            print(f"Title: {note['title']}")
+            print(f"Text: {note['content']}")
+            print(f"Tags: {', '.join(note['tags'])}")
+            print()
+    else:
+        print('No notes found.')
+
+
+
 def main():
     notes = []
 
@@ -98,8 +118,8 @@ def main():
         print('1. Add a note')
         print('2. Edit note')
         print('3. Delete note')
-        print('4. Search notes')  
-        print('5. Go out')
+        print('5. Sort notes')
+        print('6. Go out')
 
         choice = input('Enter the option number: ')
 
@@ -110,8 +130,10 @@ def main():
         elif choice == '3':
             delete_note(notes)
         elif choice == '4':
-            search_notes(notes) 
+            search_notes(notes)
         elif choice == '5':
+            sort_notes(notes)
+        elif choice == '6':
             break
         else:
             print('Invalid input. Please try again.')
